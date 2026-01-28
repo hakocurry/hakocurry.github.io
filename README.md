@@ -1,5 +1,4 @@
-# hakocurry.github.io
-函カレー (2).png
+# hakocurry
 <!DOCTYPE html>
 <html lang="ja">
 <head>
