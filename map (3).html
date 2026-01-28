@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>函館カレーMAP（番号付き）</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <style>
+    #map {
+      height: 100vh;
+    }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script>
+    const map = L.map('map').setView([41.77, 140.73], 13);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+
+    // ★ 標準ピンに番号を重ねるアイコン
+    function labelIcon(number) {
+      return L.divIcon({
+        html: `
+          <div style="position: relative; width: 25px; height: 41px;">
+            <img src="https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png" style="width:25px; height:41px;">
+            <div style="
+              position:absolute;
+              top:4px;
+              left:9px;
+              color:white;
+              font-weight:bold;
+              font-size:14px;
+              text-shadow:0 0 3px black;
+            ">${number}</div>
+          </div>
+        `,
+        className: "",
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [0, -41]
+      });
+    }
+
+    // ★ 17店舗のリスト
+    const shops = [
+      { name: "マサラカリス", lat: 41.771433, lng: 140.734416 },
+      { name: "カフェ茶結", lat: 41.767907, lng: 140.707030 },
+      { name: "LAMB'S EAR", lat: 41.788067, lng: 140.743337},
+      { name: "カレーバーハッチャギ", lat: 41.766084, lng: 140.714465 },
+      { name: "KINGBEAR駅前店", lat: 41.771735, lng: 140.727166 },
+      { name: "らーめんカレーぱんだ", lat: 41.772624, lng: 140.729574 },
+      { name: "ラマイ函館五稜郭店", lat: 41.793780, lng: 140.751861 },
+      { name: "ススム函館", lat: 41.791695, lng: 140.747347 },
+      { name: "KINGBEAR五稜郭店", lat: 41.791438, lng: 140.751252 },
+      { name: "松風グルカ", lat: 41.773263, lng: 140.732504},
+      { name: "POKHARA DINING", lat: 41.792616, lng: 140.784517},
+      { name: "元祖小いけ", lat: 41.762035, lng: 140.719787 },
+      { name: "函館ナントカ食堂", lat: 41.784390, lng: 140.750243 },
+      { name: "ローカルズオンリーカフェ", lat: 41.793873, lng: 140.782843 },
+      { name: "キッチンデューク", lat: 41.800309, lng: 140.770899},
+      { name: "味工房ほなみ函館", lat: 41.788593, lng: 140.752555 },
+      { name: "満腹食堂", lat: 41.773133, lng: 140.703777 }
+    ];
+
+    // ★ 番号付きマーカーを追加
+    shops.forEach((shop, index) => {
+      const num = index + 1;
+      L.marker([shop.lat, shop.lng], { icon: labelIcon(num) })
+        .addTo(map)
+        .bindPopup(`<b>${num}. ${shop.name}</b>`);
+    });
+  </script>
+</body>
+</html>
